@@ -1,6 +1,9 @@
 const app = require('express')();
+const cors = require('cors');
 const fs = require('fs');
 const PORT = 5000;
+
+app.use(cors());
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 

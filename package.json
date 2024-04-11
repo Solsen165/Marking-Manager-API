@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@vercel/node": "^3.0.26",
+    "cors": "^2.8.5",
     "express": "^4.19.2"
   }
 }
