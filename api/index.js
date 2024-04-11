@@ -1,13 +1,13 @@
 const app = require('express')();
 //const fs = require('fs');
-const PORT = 3000;
+const PORT = 5000;
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(
     PORT,
     () => console.log('its working on localhost:8080')
 )
-app.get("/", (req, res) => res.send("Express on Vercel"));
 /*
 app.get('/test', (req,res) => {
     res.status(200).send({
