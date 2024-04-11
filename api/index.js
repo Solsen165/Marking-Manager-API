@@ -21,7 +21,7 @@ app.get('/read', (req,res) => {
 
 function readText() {
     let content = '';
-    content = fs.readFileSync('./api/text.txt','utf-8');
+    content = fs.readFileSync(process.cwd() + '/api/text.txt','utf-8');
     return content;
 }
 
