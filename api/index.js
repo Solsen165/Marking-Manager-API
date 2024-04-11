@@ -1,6 +1,6 @@
 const app = require('express')();
 //const fs = require('fs');
-const PORT = 5000;
+const PORT = 3000;
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
