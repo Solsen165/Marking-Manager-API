@@ -1,6 +1,6 @@
 const app = require('express')();
 const fs = require('fs');
-const PORT = 8080;
+const PORT = 3000;
 
 
 app.listen(
@@ -12,6 +12,7 @@ app.get('/test', (req,res) => {
         msg: 'Hello'
     })
 });
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.get('/read', (req,res) => {
     res.status(200).send(readText());
