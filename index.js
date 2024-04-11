@@ -24,3 +24,5 @@ function readText() {
     content = fs.readFileSync('text.txt','utf-8');
     return content;
 }
+
+module.exports = app;
