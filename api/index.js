@@ -2,6 +2,7 @@ const app = require('express')();
 const cors = require('cors');
 const fs = require('fs');
 const PORT = 5000;
+const dao = require('./dataAccess');
 
 app.use(cors());
 
@@ -21,6 +22,19 @@ app.get('/read', (req,res) => {
     res.status(200).send(readText());
 })
 
+app.get('/students',(req,res) => {
+    res.send(dao.loadStudents())
+})
+
+app.get('/students/:id',(req,res) => {
+    const student = dao.getStudentWithId(req.params.id);
+    if (student == null) {
+        res.status(404).send(null);
+    }
+    else {
+        res.send(student);
+    }
+})
 
 function readText() {
     let content = '';
