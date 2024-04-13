@@ -19,8 +19,9 @@ function getCourseWithId(id) {
 function writeCourses(courses) {
     let string = '';
     for (let i in courses) {
-        string += `${courses[i].id},${courses[i].name},${courses[i].credits}`
+        string += `${courses[i].id},${courses[i].name},${courses[i].credits}\n`
     }
+    fs.writeFileSync(process.cwd() + '/api/data/courses.txt',string);
 }
 
 function loadStudents() {
@@ -59,7 +60,7 @@ function writeStudents(students) {
         }
         marksString = marksString.substring(0,marksString.length-1);
 
-        string += `${curr.id},${curr.name},${coursesString},${marksString}`;
+        string += `${curr.id},${curr.name},${coursesString},${marksString}\n`;
     }
     fs.writeFileSync(process.cwd() + '/api/data/students.txt',string);
 }
@@ -90,5 +91,7 @@ function writeTeachers(teachers) {
 module.exports = {
     loadCourses,
     loadStudents,
-    getStudentWithId
+    getStudentWithId,
+    writeCourses,
+    writeStudents
 }
