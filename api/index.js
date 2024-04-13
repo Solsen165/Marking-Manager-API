@@ -65,7 +65,7 @@ app.post('/students', (req, res) => {
     );
     students.push(newStudent);
     dao.writeStudents(students);
-    res.status(200).send();
+    res.status(200).send(newStudent);
 })
 
 app.get('/courses', (req, res) => {
@@ -79,7 +79,7 @@ app.post('/courses', (req, res) => {
     let newCourse = new models.Course(courses.length + 1, req.body.courseTitle, req.body.courseCredits);
     courses.push(newCourse);
     dao.writeCourses(courses);
-    res.status(200).send()
+    res.status(200).send(newCourse)
 })
 function readText() {
     let content = '';
