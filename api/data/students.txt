@@ -1,1 +1,3 @@
-161,Islam,1|2,90|100
+1,Islam,1|2,90|100
+2,Jihad,2|3,null|null
+3,Mana,1,null
