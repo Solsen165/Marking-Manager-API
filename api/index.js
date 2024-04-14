@@ -53,6 +53,32 @@ app.get('/teachers/:id', (req, res) => {
         res.send(teacher);
     }
 })
+
+app.post('/teachers', (req, res) => {
+    console.log(req.body);
+    let teachers = dao.loadTeachers();
+    const courses = dao.loadCourses();
+    const courseIds = req.body.teacherCourses.split('|');
+    let currCourses = [];
+
+    for (let i in courses) {
+        for (let j in courseIds) {
+            if (courses[i].id == courseIds[j]) {
+                currCourses.push(courses[i]);
+            }
+        }
+    }
+
+    let newTeacher = new models.Teacher(
+        teachers.length + 1,
+        req.body.teacherName,
+        currCourses
+    );
+    teachers.push(newTeacher);
+    dao.writeTeachers(teachers);
+    res.status(200).send(newTeacher);
+})
+
 app.post('/students', (req, res) => {
     console.log(req.body);
     let students = dao.loadStudents();

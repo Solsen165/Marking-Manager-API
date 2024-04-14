@@ -65,6 +65,21 @@ function writeStudents(students) {
     fs.writeFileSync(process.cwd() + '/api/data/students.txt',string);
 }
 
+function writeTeachers(teachers) {
+    let string = '';
+    for (let i in teachers) {
+        const curr = teachers[i];
+        let coursesString = '';
+        for (let j in curr.courses) {
+            coursesString += `${curr.courses[j].id}|`;
+        }
+        coursesString = coursesString.substring(0,coursesString.length-1);
+
+        string += `${curr.id},${curr.name},${coursesString}\n`;
+    }
+    fs.writeFileSync(process.cwd() + '/api/data/teachers.txt',string);
+}
+
 function getStudentWithId(id) {
     return loadStudents().find(s => s.id == id);
 }
@@ -90,13 +105,6 @@ function getTeacherWithId(id) {
     return loadTeachers().find(t => t.id == id);
 }
 
-function writeTeachers(teachers) {
-    let string = '';
-    for (let i in teachers) {
-        string += `${teachers[i].id},${teachers[i].name},${teachers[i].department}\n`
-    }
-}
-
 module.exports = {
     loadCourses,
     loadStudents,
@@ -104,5 +112,6 @@ module.exports = {
     getStudentWithId,
     getTeacherWithId,
     writeCourses,
-    writeStudents
+    writeStudents,
+    writeTeachers
 }
