@@ -1,3 +1,4 @@
 1,Data structures and algorithms,2.5
 2,Calculus,3
 3,Physics,3
+4,Computer Networking,2
