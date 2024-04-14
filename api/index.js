@@ -27,7 +27,11 @@ app.get('/read', (req, res) => {
 })
 
 app.get('/students', (req, res) => {
-    res.send(dao.loadStudents())
+    res.send(dao.loadStudents());
+})
+
+app.get('/teachers', (req,res) => {
+    res.send(dao.loadTeachers());
 })
 
 app.get('/students/:id', (req, res) => {
@@ -37,6 +41,16 @@ app.get('/students/:id', (req, res) => {
     }
     else {
         res.send(student);
+    }
+})
+
+app.get('/teachers/:id', (req, res) => {
+    const teacher = dao.getTeacherWithId(req.params.id);
+    if (teacher == null) {
+        res.status(404).send(null);
+    }
+    else {
+        res.send(teacher);
     }
 })
 app.post('/students', (req, res) => {
@@ -56,7 +70,6 @@ app.post('/students', (req, res) => {
 
     let currMarks = Array(currCourses.length).fill(null);
 
-
     let newStudent = new models.Student(
         students.length + 1,
         req.body.studentName,
@@ -66,6 +79,12 @@ app.post('/students', (req, res) => {
     students.push(newStudent);
     dao.writeStudents(students);
     res.status(200).send(newStudent);
+})
+
+app.post('/students/all', (req,res) => {
+    const data = req.body;
+    dao.writeStudents(data);
+    res.status(200).send();
 })
 
 app.get('/courses', (req, res) => {

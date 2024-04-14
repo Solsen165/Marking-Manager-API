@@ -75,23 +75,34 @@ function loadTeachers() {
     for (let i in lines) {
         if (lines[i].length > 1) {
             const words = lines[i].split(',');
-            teachers.push(new models.Teacher(words[0],words[1],words[2]));
+            const courseIds = words[2].split('|');
+            let courses = [];
+            for (let j in courseIds) {
+                courses.push(getCourseWithId(courseIds[j]));
+            }
+            teachers.push(new models.Teacher(words[0],words[1],courses));
         }
     }
     return teachers;
 }
 
+function getTeacherWithId(id) {
+    return loadTeachers().find(t => t.id == id);
+}
+
 function writeTeachers(teachers) {
     let string = '';
     for (let i in teachers) {
-        string += `${teachers[i].id},${teachers[i].name},${teachers[i].department}`
+        string += `${teachers[i].id},${teachers[i].name},${teachers[i].department}\n`
     }
 }
 
 module.exports = {
     loadCourses,
     loadStudents,
+    loadTeachers,
     getStudentWithId,
+    getTeacherWithId,
     writeCourses,
     writeStudents
 }
