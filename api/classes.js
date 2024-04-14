@@ -9,10 +9,9 @@ class Course {
 
 // Teacher class
 class Teacher {
-    constructor(id,name, department, courses) {
+    constructor(id,name,courses) {
         this.id = id;
         this.name = name;
-        this.department = department;
         this.courses = courses;
     }
 }

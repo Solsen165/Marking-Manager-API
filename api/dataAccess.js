@@ -65,6 +65,21 @@ function writeStudents(students) {
     fs.writeFileSync(process.cwd() + '/api/data/students.txt',string);
 }
 
+function writeTeachers(teachers) {
+    let string = '';
+    for (let i in teachers) {
+        const curr = teachers[i];
+        let coursesString = '';
+        for (let j in curr.courses) {
+            coursesString += `${curr.courses[j].id}|`;
+        }
+        coursesString = coursesString.substring(0,coursesString.length-1);
+
+        string += `${curr.id},${curr.name},${coursesString}\n`;
+    }
+    fs.writeFileSync(process.cwd() + '/api/data/teachers.txt',string);
+}
+
 function getStudentWithId(id) {
     return loadStudents().find(s => s.id == id);
 }
@@ -75,23 +90,28 @@ function loadTeachers() {
     for (let i in lines) {
         if (lines[i].length > 1) {
             const words = lines[i].split(',');
-            teachers.push(new models.Teacher(words[0],words[1],words[2]));
+            const courseIds = words[2].split('|');
+            let courses = [];
+            for (let j in courseIds) {
+                courses.push(getCourseWithId(courseIds[j]));
+            }
+            teachers.push(new models.Teacher(words[0],words[1],courses));
         }
     }
     return teachers;
 }
 
-function writeTeachers(teachers) {
-    let string = '';
-    for (let i in teachers) {
-        string += `${teachers[i].id},${teachers[i].name},${teachers[i].department}`
-    }
+function getTeacherWithId(id) {
+    return loadTeachers().find(t => t.id == id);
 }
 
 module.exports = {
     loadCourses,
     loadStudents,
+    loadTeachers,
     getStudentWithId,
+    getTeacherWithId,
     writeCourses,
-    writeStudents
+    writeStudents,
+    writeTeachers
 }
