@@ -4,7 +4,8 @@ const teacherSchema = mongoose.Schema(
     {
         id: {type: Number},
         name: {type: String},
-        courses: {type: Array}
+        courses: {type: Array},
+        percents: {type: Array}
     }
 )
 

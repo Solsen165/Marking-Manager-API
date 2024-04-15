@@ -51,6 +51,7 @@ app.get('/teachers', async (req, res) => {
 app.get('/students/:id', async (req, res) => {
     //const student = dao.getStudentWithId(req.params.id);
     const student = await Student.find({ id: req.params.id });
+    console.log(student[0]);
     if (student == null) {
         res.status(404).send(null);
     }
@@ -72,8 +73,6 @@ app.get('/teachers/:id', async (req, res) => {
 
 app.post('/teachers', async (req, res) => {
 
-    //let teachers = dao.loadTeachers();
-    //const courses = dao.loadCourses();
     let teachers = await Teacher.find({});
     const courses = await Course.find({});
 
@@ -88,27 +87,19 @@ app.post('/teachers', async (req, res) => {
         }
     }
 
-    /*
-    let newTeacher = new models.Teacher(
-        teachers.length + 1,
-        req.body.teacherName,
-        currCourses
-    );
-    teachers.push(newTeacher);
-    dao.writeTeachers(teachers);
-    */
+    let currPercents = Array(currCourses.length).fill([20,10,70]);
+    console.log(currPercents);
+
     const newTeacher = await Teacher.create({
         id: teachers.length + 1,
         name: req.body.teacherName,
-        courses: currCourses
-    });
+        courses: currCourses,
+        percents: currPercents
+    })
     res.status(200).json(newTeacher);
 })
 
 app.post('/students', async (req, res) => {
-    console.log(req.body);
-    //let students = dao.loadStudents();
-    //const courses = dao.loadCourses();
     let students = await Student.find({});
     const courses = await Course.find({});
     const courseIds = req.body.studentCourses.split('|');
@@ -122,23 +113,17 @@ app.post('/students', async (req, res) => {
         }
     }
 
-    let currMarks = Array(currCourses.length).fill(null);
+    let currFinalMarks = Array(currCourses.length).fill(null);
+    let currMarks = Array(currCourses.length).fill([null,null,null]);
+    let currRequests = Array(currCourses.length).fill(0);
 
-    /*
-    let newStudent = new models.Student(
-        students.length + 1,
-        req.body.studentName,
-        currCourses,
-        currMarks
-    );
-    students.push(newStudent);
-    dao.writeStudents(students);
-    */
     const newStudent = await Student.create({
         id: students.length + 1,
         name: req.body.studentName,
         courses: currCourses,
-        marks: currMarks
+        marks: currMarks,
+        finalMarks: currFinalMarks,
+        requests: currRequests
     })
 
     res.status(200).json(newStudent);
@@ -149,8 +134,15 @@ app.post('/students/all', async (req, res) => {
     //dao.writeStudents(data);
     for (let i in data) {
         const currStudent = data[i];
-        await Student.findOneAndUpdate({id: currStudent.id}, {marks: currStudent.marks});
+        await Student.findOneAndUpdate({id: currStudent.id}, {marks: currStudent.marks, finalMarks: currStudent.finalMarks, requests: currStudent.requests});
     }
+    res.status(200).send();
+})
+
+app.put('/students/:id', async (req, res) => {
+    console.log(req.body);
+    console.log(req.body.requests);
+    await Student.findOneAndUpdate({id: req.params.id}, {requests: req.body.requests});
     res.status(200).send();
 })
 
